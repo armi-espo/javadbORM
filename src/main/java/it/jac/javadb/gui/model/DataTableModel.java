@@ -3,12 +3,19 @@ package it.jac.javadb.gui.model;
 import java.util.ArrayList;
 import java.util.List;
 
-import javax.swing.event.TableModelListener;
-import javax.swing.table.TableModel;
+import javax.swing.table.AbstractTableModel;
 
-public class DataTableModel implements TableModel {
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
 
+public class DataTableModel extends AbstractTableModel {
+
+	private static final Logger log = LogManager.getLogger(DataTableModel.class);
+	
+	private static final int PAGE_SIZE = 3;
+	
 	private List<String[]> tableContent = new ArrayList<>();
+	private int currentPage = 0;
 	
 	public DataTableModel(List<String[]> tableContent) {
 		
@@ -17,7 +24,7 @@ public class DataTableModel implements TableModel {
 	
 	@Override
 	public int getRowCount() {
-		return 3;
+		return PAGE_SIZE;
 	}
 
 	@Override
@@ -37,7 +44,14 @@ public class DataTableModel implements TableModel {
 
 	@Override
 	public Object getValueAt(int rowIndex, int columnIndex) {
-		return this.tableContent.get(rowIndex)[columnIndex];
+		
+		log.debug("getValueAt [" + rowIndex + "," + columnIndex + "]");
+		
+		int index = (currentPage * PAGE_SIZE) + rowIndex;
+		if (index < this.tableContent.size()) {
+			return this.tableContent.get(index)[columnIndex];
+		}
+		return "";
 	}
 
 	@Override
@@ -45,19 +59,20 @@ public class DataTableModel implements TableModel {
 		return "column" + columnIndex;
 	}
 
-	@Override
-	public void setValueAt(Object aValue, int rowIndex, int columnIndex) {
+	public void goToPrevPage() {
 		
+		log.info("go to previous page");		
+		this.currentPage = Math.max(0, this.currentPage -1);
+		log.debug("currenPage " + this.currentPage);
+		fireTableDataChanged();
 	}
 
-	@Override
-	public void addTableModelListener(TableModelListener l) {
+	public void goToNextPage() {
 		
-	}
-
-	@Override
-	public void removeTableModelListener(TableModelListener l) {
-		
+		log.info("go to next page");		
+		this.currentPage = Math.min(this.currentPage + 1, (this.tableContent.size() / PAGE_SIZE));
+		log.debug("currenPage " + this.currentPage);
+		fireTableDataChanged();
 	}
 
 }

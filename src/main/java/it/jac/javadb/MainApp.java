@@ -78,17 +78,13 @@ public class MainApp {
 
 				ItemService service = new ItemService();
 				
-//				Item item = service.findItemById(2);
-				
-				log.debug(item);
-				
 				service.updateItem(item);
 				
 				break;
 			}
 			case "5": {
 
-				System.out.println("Elimina articolo alla lista");
+				System.out.println("Elimina articolo dalla lista");
 
 // 				TODO implementare
 				
