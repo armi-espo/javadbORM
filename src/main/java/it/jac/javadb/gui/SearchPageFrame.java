@@ -18,6 +18,7 @@ import javax.swing.event.TableModelListener;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
+import it.jac.javadb.gui.model.DataTableColumnModel;
 import it.jac.javadb.gui.model.DataTableModel;
 
 public class SearchPageFrame extends JFrame {

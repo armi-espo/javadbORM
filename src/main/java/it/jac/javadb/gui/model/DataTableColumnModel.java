@@ -1,4 +1,4 @@
-package it.jac.javadb.gui;
+package it.jac.javadb.gui.model;
 
 import javax.swing.table.DefaultTableColumnModel;
 import javax.swing.table.TableColumn;

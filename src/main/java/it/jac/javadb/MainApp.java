@@ -74,7 +74,6 @@ public class MainApp {
 
 				System.out.println("Modifica articolo alla lista");
 
-				
  				Item item = new Item();
  				
  				item.setId(2);
