@@ -54,6 +54,13 @@ public class MainApp {
 			}
 			case "3": {
 
+				System.out.println("Stampa articolo singolo");
+
+//				TODO implementare
+				break;
+			}
+			case "4": {
+
 				System.out.println("Aggiungi articolo alla lista");
 
 				Item item = createItemFromUserInput();
@@ -63,7 +70,7 @@ public class MainApp {
 				
 				break;
 			}
-			case "4": {
+			case "5": {
 
 				System.out.println("Modifica articolo alla lista");
 
@@ -82,9 +89,17 @@ public class MainApp {
 				
 				break;
 			}
-			case "5": {
+			case "6": {
 
 				System.out.println("Elimina articolo dalla lista");
+
+// 				TODO implementare
+				
+				break;
+			}
+			case "7": {
+
+				System.out.println("Stampa lista articoli validi alla data");
 
 // 				TODO implementare
 				
