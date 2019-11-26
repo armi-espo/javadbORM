@@ -11,7 +11,11 @@ import it.jac.javadb.entity.Item;
 public class ItemService {
 
 	private ItemDao dao = new ItemDao();
-	
+
+	public Item findItemById(int id) {
+		return dao.findItemById(id);
+	}
+
 	public List<Item> findAll() {
 		return dao.findAll();
 	}
@@ -33,12 +37,6 @@ public class ItemService {
 		item.setUpdateTime(new Date());
 		
 		dao.update(item);
-		
 	}
 	
-	public Item findItemById(int id) {
-		
-		return dao.findItemById(id);
-	}
-
 }
