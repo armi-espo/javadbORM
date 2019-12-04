@@ -7,10 +7,11 @@ import org.apache.commons.lang3.time.DateUtils;
 
 import it.jac.javadb.dao.ItemDao;
 import it.jac.javadb.entity.Item;
+import it.jac.javadb.util.DaoFactory;
 
 public class ItemService {
 
-	private ItemDao dao = new ItemDao();
+	private ItemDao dao = DaoFactory.createItemNativeDao();
 
 	public Item findItemById(int id) {
 		return dao.findItemById(id);
@@ -18,6 +19,16 @@ public class ItemService {
 
 	public List<Item> findAll() {
 		return dao.findAll();
+	}
+
+	public List<Item> findByValidDate(Date date) {
+		
+		return dao.findByValidDate(date);
+	}
+
+	public List<Item> findLimitResults(int firstIndex, int pageSize) {
+
+		return dao.findLimitResults(firstIndex, pageSize);
 	}
 
 	public void saveItem(Item item) {
@@ -39,4 +50,9 @@ public class ItemService {
 		dao.update(item);
 	}
 	
+	public void deleteItem(Item item) {
+		
+		dao.delete(item);
+	}
+
 }

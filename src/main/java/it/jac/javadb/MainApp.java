@@ -1,5 +1,8 @@
 package it.jac.javadb;
 
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
+import java.util.Arrays;
 import java.util.List;
 import java.util.Scanner;
 
@@ -9,6 +12,7 @@ import org.apache.logging.log4j.Logger;
 import it.jac.javadb.dao.ItemDao;
 import it.jac.javadb.entity.Item;
 import it.jac.javadb.service.ItemService;
+import it.jac.javadb.util.DaoFactory;
 import it.jac.javadb.util.HibernateUtil;
 import it.jac.javadb.util.Utils;
 
@@ -16,7 +20,7 @@ public class MainApp {
 
 	private static final Logger log = LogManager.getLogger(MainApp.class);
 	
-	public static void main(String[] args) {
+	public static void main(String[] args) throws ParseException {
 		
 		log.info("App Started");
 
@@ -32,7 +36,7 @@ public class MainApp {
 			case "1": {
 
 				System.out.println("Test connessione");
-				ItemDao dao = new ItemDao();
+				ItemDao dao = DaoFactory.createItemNativeDao();
 				
 				boolean test = dao.testConnessione();
 				if (test) {
@@ -56,7 +60,9 @@ public class MainApp {
 
 				System.out.println("Stampa articolo singolo");
 
-//				TODO implementare
+				ItemService service = new ItemService();
+				
+				Utils.stampaLista(Arrays.asList(service.findItemById(2)));
 				break;
 			}
 			case "4": {
@@ -91,8 +97,10 @@ public class MainApp {
 			case "6": {
 
 				System.out.println("Elimina articolo dalla lista");
-
-// 				TODO implementare
+				
+				ItemService service = new ItemService();
+				
+				service.deleteItem(service.findItemById(3));
 				
 				break;
 			}
@@ -100,7 +108,25 @@ public class MainApp {
 
 				System.out.println("Stampa lista articoli validi alla data");
 
-// 				TODO implementare
+				SimpleDateFormat sdf = new SimpleDateFormat("dd/MM/yyyy");
+				
+				ItemService service = new ItemService();
+
+				List<Item> list = service.findByValidDate(sdf.parse("05/12/2019"));
+				
+				Utils.stampaLista(list);
+				
+				break;
+			}
+			case "8": {
+
+				System.out.println("Stampa lista articoli (paginata)");
+
+				ItemService service = new ItemService();
+
+				List<Item> list = service.findLimitResults(2, 3);
+				
+				Utils.stampaLista(list);
 				
 				break;
 			}

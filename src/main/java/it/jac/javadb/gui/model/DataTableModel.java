@@ -15,7 +15,6 @@ public class DataTableModel extends AbstractTableModel {
 	private static final int PAGE_SIZE = 3;
 	
 	private List<String[]> tableContent = new ArrayList<>();
-	private int currentPage = 0;
 	
 	public DataTableModel(List<String[]> tableContent) {
 		
@@ -47,10 +46,6 @@ public class DataTableModel extends AbstractTableModel {
 		
 		log.debug("getValueAt [" + rowIndex + "," + columnIndex + "]");
 		
-		int index = (currentPage * PAGE_SIZE) + rowIndex;
-		if (index < this.tableContent.size()) {
-			return this.tableContent.get(index)[columnIndex];
-		}
 		return "";
 	}
 
@@ -62,17 +57,11 @@ public class DataTableModel extends AbstractTableModel {
 	public void goToPrevPage() {
 		
 		log.info("go to previous page");		
-		this.currentPage = Math.max(0, this.currentPage -1);
-		log.debug("currenPage " + this.currentPage);
-		fireTableDataChanged();
 	}
 
 	public void goToNextPage() {
 		
 		log.info("go to next page");		
-		this.currentPage = Math.min(this.currentPage + 1, (this.tableContent.size() / PAGE_SIZE));
-		log.debug("currenPage " + this.currentPage);
-		fireTableDataChanged();
 	}
 
 }

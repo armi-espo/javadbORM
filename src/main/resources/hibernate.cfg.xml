@@ -27,8 +27,6 @@
 
 		<!-- mapping entita' -->
 		<mapping class="it.jac.javadb.entity.Item" />
-		<mapping class="it.jac.javadb.entity.Table1" />
-		<mapping class="it.jac.javadb.entity.Table2" />
 
 	</session-factory>
 </hibernate-configuration>

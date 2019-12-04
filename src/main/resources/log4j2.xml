@@ -7,6 +7,9 @@
 		</Console>
 	</Appenders>
 	<Loggers>
+		<Logger name="org.hibernate" level="info">
+			<AppenderRef ref="Console" />
+		</Logger>
 		<Root level="DEBUG">
 			<AppenderRef ref="Console" />
 		</Root>

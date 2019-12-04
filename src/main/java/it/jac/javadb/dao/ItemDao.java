@@ -1,5 +1,6 @@
 package it.jac.javadb.dao;
 
+import java.util.Date;
 import java.util.List;
 
 import org.apache.logging.log4j.LogManager;
@@ -11,10 +12,12 @@ import org.hibernate.query.NativeQuery;
 import it.jac.javadb.entity.Item;
 import it.jac.javadb.util.HibernateUtil;
 
-public class ItemDao {
+public abstract class ItemDao {
 
 	private static final Logger log = LogManager.getLogger(ItemDao.class);
-	
+
+	public abstract List<Item> findByValidDate(Date date);
+
 	public boolean testConnessione() {
 		
 		log.debug("try to open session");
@@ -39,6 +42,7 @@ public class ItemDao {
 		}
 	}
 
+
 	public List<Item> findAll() {
 
 		log.debug("try to find all entities");
@@ -53,6 +57,26 @@ public class ItemDao {
 			
 			return list;
 		}
+	}
+	
+	public List<Item> findLimitResults(int firstIndex, int pageSize) {
+		
+		log.debug("try to find subset [" + firstIndex + ", "+ pageSize + "]");
+		
+		try (Session session = HibernateUtil.getSessionFactory().openSession()) {
+			
+			NativeQuery<Item> query = session.createNativeQuery("select * from item", Item.class);
+	
+			query.setFirstResult(firstIndex);
+			query.setMaxResults(pageSize);
+			
+			List<Item> list = query.list();
+			
+			log.debug("found [" + list.size() + "] entities");
+			
+			return list;
+		}
+
 	}
 
 	public void save(Item item) {
@@ -93,6 +117,26 @@ public class ItemDao {
 				tx.rollback();
 			}
 		}
+	}
+
+	public void delete(Item item) {
+
+		log.debug("try to delete item " + item);
+		
+		try (Session session = HibernateUtil.getSessionFactory().openSession()) {
+
+			Transaction tx = session.beginTransaction();
+			try {
+				
+				session.delete(item);
+				tx.commit();
+				log.debug("item deleted");
+				
+			} catch(Exception e) {
+				log.error("Error deleting item", e);
+				tx.rollback();
+			}
+		}		
 	}
 
 }
